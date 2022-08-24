@@ -1,5 +1,3 @@
-import 'package:cpu_reader/cpu_reader.dart';
-import 'package:cpu_reader/cpuinfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hw_info_app/components/tabbar_item.dart';
 import 'package:flutter_hw_info_app/screens/main_screen_tabs/battery.dart';
@@ -24,17 +22,6 @@ class _MainScreenState extends State<MainScreen>
     with SingleTickerProviderStateMixin {
   void getDeviceMemory() async {
     int? deviceMemory = await SystemInfoPlus.physicalMemory; // returns in MB
-  }
-
-  void readCPU() async {
-    final CpuInfo cpuInfo = await CpuReader.cpuInfo;
-    print('Number of Cores ${cpuInfo.numberOfCores}');
-
-    int freq = await CpuReader.getCurrentFrequency(2) ?? 0;
-    print('Core number 2 freq $freq Mhz');
-
-    CpuReader.cpuStream(1000)
-        .listen((cpuInfo) => print("Temperature: ${cpuInfo.cpuTemperature}"));
   }
 
   void getSensorInfo() {
@@ -110,6 +97,7 @@ class _MainScreenState extends State<MainScreen>
         children: [
           TabBar(
             controller: _tabController,
+            isScrollable: true,
             padding: EdgeInsets.zero,
             labelPadding: EdgeInsets.zero,
             indicator: BoxDecoration(
