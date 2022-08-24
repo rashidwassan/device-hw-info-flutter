@@ -108,9 +108,12 @@ class _MainScreenState extends State<MainScreen>
             tabs: _tabBarItemList,
           ),
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: _tabViewItemList,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TabBarView(
+                controller: _tabController,
+                children: _tabViewItemList,
+              ),
             ),
           )
         ],
