@@ -24,11 +24,34 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                   builder: (context, AsyncSnapshot<CpuInfo> cpuInfo) {
                     if (cpuInfo.hasData) {
                       return Expanded(
-                        child: ListView.builder(
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                          ),
                           shrinkWrap: true,
                           itemCount: cpuData.data!.numberOfCores,
-                          itemBuilder: (context, index) => Text(
-                            cpuInfo.data!.currentFrequencies![index].toString(),
+                          itemBuilder: (context, index) => AspectRatio(
+                            aspectRatio: 1,
+                            child: Container(
+                              margin: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    'Core $index',
+                                  ),
+                                  Text(
+                                    '${cpuInfo.data!.currentFrequencies![index]} Mhz',
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       );
