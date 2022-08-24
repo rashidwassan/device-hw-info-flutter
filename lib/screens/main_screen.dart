@@ -2,13 +2,19 @@ import 'package:cpu_reader/cpu_reader.dart';
 import 'package:cpu_reader/cpuinfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hw_info_app/components/tabbar_item.dart';
-import 'package:flutter_hw_info_app/screens/general.dart';
-import 'package:flutter_hw_info_app/screens/soc.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/battery.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/camera.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/general.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/memory.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/screen.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/soc.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/system.dart';
+import 'package:flutter_hw_info_app/screens/main_screen_tabs/thermal.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:system_info_plus/system_info_plus.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -21,11 +27,11 @@ class _MainScreenState extends State<MainScreen>
   }
 
   void readCPU() async {
-    CpuInfo cpuInfo = await CpuReader.cpuInfo;
+    final CpuInfo cpuInfo = await CpuReader.cpuInfo;
     print('Number of Cores ${cpuInfo.numberOfCores}');
 
     int freq = await CpuReader.getCurrentFrequency(2) ?? 0;
-    print('Core number 2 freq ${freq} Mhz');
+    print('Core number 2 freq $freq Mhz');
 
     CpuReader.cpuStream(1000)
         .listen((cpuInfo) => print("Temperature: ${cpuInfo.cpuTemperature}"));
@@ -58,7 +64,32 @@ class _MainScreenState extends State<MainScreen>
   final List<Widget> _tabBarItemList = [
     const TabBarItem(text: 'GENERAL'),
     const TabBarItem(text: 'SOC'),
+    const TabBarItem(text: 'SYSTEM'),
+    const TabBarItem(text: 'SCREEN'),
     const TabBarItem(text: 'MEMORY'),
+    const TabBarItem(text: 'CAMERA'),
+    const TabBarItem(text: 'BATTERY'),
+    const TabBarItem(text: 'THERMAL'),
+    // const TabBarItem(text: 'SENSORS'),
+    // const TabBarItem(text: 'APPLICATIONS'),
+    // const TabBarItem(text: 'PARTITIONS'),
+    // const TabBarItem(text: 'Wi-Fi'),
+    // const TabBarItem(text: 'BLUETOOTH'),
+    // const TabBarItem(text: 'INPUT'),
+    // const TabBarItem(text: 'CODECS'),
+    // const TabBarItem(text: 'USB'),
+    // const TabBarItem(text: 'MY APPS'),
+  ];
+
+  final List<Widget> _tabViewItemList = [
+    const GeneralInfoPage(),
+    const SoCInfoPage(),
+    const SystemInfoPage(),
+    const ScreenInfoPage(),
+    const MemoryInfoPage(),
+    const CameraInfoPage(),
+    const BatteryInfoPage(),
+    const ThermalInfoPage(),
   ];
 
   @override
@@ -89,11 +120,10 @@ class _MainScreenState extends State<MainScreen>
             tabs: _tabBarItemList,
           ),
           Expanded(
-            child: TabBarView(controller: _tabController, children: [
-              GeneralInfoPage(),
-              SoCInfoPage(),
-              SoCInfoPage(),
-            ]),
+            child: TabBarView(
+              controller: _tabController,
+              children: _tabViewItemList,
+            ),
           )
         ],
       ),

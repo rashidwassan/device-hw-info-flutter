@@ -5,6 +5,6 @@ class GeneralInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('GENERAL INFO');
+    return const Center(child: Text('GENERAL'));
   }
 }

@@ -5,6 +5,6 @@ class SoCInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('SoC');
+    return const Center(child: Text('SoC'));
   }
 }
