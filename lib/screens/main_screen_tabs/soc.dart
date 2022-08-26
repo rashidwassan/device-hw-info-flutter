@@ -57,10 +57,13 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                                     centerText:
                                         '${cpuInfo.data!.currentFrequencies![index]} Mhz',
                                     total: double.parse(
-                                      cpuInfo
-                                          .data!.minMaxFrequencies![index]!.max
-                                          .toString(),
-                                    ),
+                                          cpuInfo.data!
+                                              .minMaxFrequencies![index]!.max
+                                              .toString(),
+                                        ) -
+                                        cpuInfo
+                                            .data!.currentFrequencies![index]!
+                                            .toDouble(),
                                     usage: cpuInfo
                                         .data!.currentFrequencies![index]!
                                         .toDouble(),
