@@ -1,5 +1,6 @@
 import 'package:cpu_reader/cpuinfo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hw_info_app/components/pie_chart_view.dart';
 import 'package:flutter_hw_info_app/utils/cpu_utils.dart';
 
 class SoCInfoPage extends StatefulWidget {
@@ -17,6 +18,14 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
         future: CPUUtils.readCPUInfo(),
         builder: (context, AsyncSnapshot<CpuInfo> cpuData) {
           if (cpuData.hasData) {
+            print(cpuData.data!.minMaxFrequencies![0]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![1]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![2]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![3]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![4]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![5]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![6]!.max.toString());
+            print(cpuData.data!.minMaxFrequencies![7]!.max.toString());
             return Column(
               children: [
                 StreamBuilder(
@@ -27,7 +36,7 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                         child: GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
+                            crossAxisCount: 2,
                           ),
                           shrinkWrap: true,
                           itemCount: cpuData.data!.numberOfCores,
@@ -35,19 +44,29 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                             aspectRatio: 1,
                             child: Container(
                               margin: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(
-                                    'Core $index',
+                                  PieChartView(
+                                    centerText:
+                                        '${cpuInfo.data!.currentFrequencies![index]} Mhz',
+                                    total: double.parse(
+                                      cpuInfo
+                                          .data!.minMaxFrequencies![index]!.max
+                                          .toString(),
+                                    ),
+                                    usage: cpuInfo
+                                        .data!.currentFrequencies![index]!
+                                        .toDouble(),
                                   ),
                                   Text(
-                                    '${cpuInfo.data!.currentFrequencies![index]} Mhz',
+                                    'Core $index',
                                   ),
                                 ],
                               ),
