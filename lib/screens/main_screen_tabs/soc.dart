@@ -18,16 +18,34 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
         future: CPUUtils.readCPUInfo(),
         builder: (context, AsyncSnapshot<CpuInfo> cpuData) {
           if (cpuData.hasData) {
-            print(cpuData.data!.minMaxFrequencies![0]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![1]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![2]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![3]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![4]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![5]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![6]!.max.toString());
-            print(cpuData.data!.minMaxFrequencies![7]!.max.toString());
             return Column(
               children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade800,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const Text('CPU Architecture\nNumber of Cores'),
+                          Container(
+                            height: 20,
+                            width: 2,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "${cpuData.data!.abi!}\n${cpuData.data!.numberOfCores}",
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 StreamBuilder(
                   stream: CPUUtils.getLiveCPUData(),
                   builder: (context, AsyncSnapshot<CpuInfo> cpuInfo) {
@@ -43,8 +61,8 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                           itemBuilder: (context, index) => AspectRatio(
                             aspectRatio: 1,
                             child: Container(
-                              margin: const EdgeInsets.all(8),
-                              padding: const EdgeInsets.all(8),
+                              margin: const EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
@@ -53,23 +71,36 @@ class _SoCInfoPageState extends State<SoCInfoPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  PieChartView(
-                                    centerText:
-                                        '${cpuInfo.data!.currentFrequencies![index]} Mhz',
-                                    total: double.parse(
-                                          cpuInfo.data!
-                                              .minMaxFrequencies![index]!.max
-                                              .toString(),
-                                        ) -
-                                        cpuInfo
-                                            .data!.currentFrequencies![index]!
-                                            .toDouble(),
-                                    usage: cpuInfo
-                                        .data!.currentFrequencies![index]!
-                                        .toDouble(),
+                                  TweenAnimationBuilder(
+                                    tween: Tween<double>(
+                                      begin: 0,
+                                      end: cpuInfo
+                                          .data!.currentFrequencies![index]!
+                                          .toDouble(),
+                                    ),
+                                    duration: const Duration(milliseconds: 300),
+                                    builder: (context, value, child) =>
+                                        PieChartView(
+                                      centerText:
+                                          '${double.parse(value.toString()).floor()}Mhz',
+                                      total: double.parse(
+                                            cpuInfo.data!
+                                                .minMaxFrequencies![index]!.max
+                                                .toString(),
+                                          ) -
+                                          cpuInfo
+                                              .data!.currentFrequencies![index]!
+                                              .toDouble(),
+                                      usage: double.parse(value.toString()),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
                                   ),
                                   Text(
                                     'Core $index',
+                                    style:
+                                        const TextStyle(color: Colors.black54),
                                   ),
                                 ],
                               ),

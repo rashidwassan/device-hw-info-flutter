@@ -18,10 +18,8 @@ class PieChart extends CustomPainter {
       ..strokeWidth = width / 2;
 
     double total = 0;
-    // Calculate total amount from each category
     categories.forEach((expense) => total += expense.amount);
 
-    // The angle/radian at 12 o'clcok
     double startRadian = -pi / 2;
 
     for (var index = 0; index < categories.length; index++) {
@@ -53,10 +51,6 @@ class Category {
 }
 
 final kNeumorphicColors = [
-  Color.fromRGBO(82, 98, 255, 1), //  rgb(82, 98, 255)
-  Color.fromRGBO(46, 198, 255, 1), // rgb(46, 198, 255)
-  Color.fromRGBO(123, 201, 82, 1), // rgb(123, 201, 82)
-  Color.fromRGBO(255, 171, 67, 1), // rgb(255, 171, 67)
-  Color.fromRGBO(252, 91, 57, 1), //  rgb(252, 91, 57)
-  Color.fromRGBO(139, 135, 130, 1), //rgb(139, 135, 130)
+  const Color.fromRGBO(252, 91, 57, 1), //  rgb(252, 91, 57)
+  Colors.blue.shade100 //rgb(139, 135, 130)
 ];

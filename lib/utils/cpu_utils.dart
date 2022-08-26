@@ -8,6 +8,6 @@ class CPUUtils {
   }
 
   static Stream<CpuInfo> getLiveCPUData() {
-    return CpuReader.cpuStream(500);
+    return CpuReader.cpuStream(700);
   }
 }

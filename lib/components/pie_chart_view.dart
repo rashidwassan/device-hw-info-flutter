@@ -52,7 +52,7 @@ class PieChartView extends StatelessWidget {
                 child: Container(
                   height: constraint.maxWidth * 0.4,
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(193, 214, 233, 1),
+                    color: Colors.white,
                     shape: BoxShape.circle,
                     boxShadow: [
                       const BoxShadow(
@@ -69,7 +69,11 @@ class PieChartView extends StatelessWidget {
                     ],
                   ),
                   child: Center(
-                    child: Text(centerText),
+                    child: Text(
+                      centerText,
+                      style:
+                          const TextStyle(color: Colors.black87, fontSize: 10),
+                    ),
                   ),
                 ),
               ),
